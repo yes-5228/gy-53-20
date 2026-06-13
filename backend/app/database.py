@@ -67,6 +67,15 @@ def init_db():
                 invoice_no TEXT NOT NULL UNIQUE,
                 status TEXT NOT NULL
             );
+
+            CREATE TABLE IF NOT EXISTS blacklist (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                plate_number TEXT NOT NULL UNIQUE,
+                reason TEXT NOT NULL,
+                status TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                remark TEXT
+            );
             """
         )
 

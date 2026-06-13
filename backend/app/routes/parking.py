@@ -24,6 +24,18 @@ def create_entry():
         return {"message": "车牌号和车位号不能为空"}, 400
 
     with get_connection() as conn:
+        black_item = conn.execute(
+            "SELECT * FROM blacklist WHERE plate_number = ? AND status = 'active'",
+            (plate_number,),
+        ).fetchone()
+        if black_item:
+            return {
+                "message": "该车辆已被列入黑名单，禁止入场",
+                "blocked": True,
+                "reason": black_item["reason"],
+                "remark": black_item["remark"],
+            }, 403
+
         space = conn.execute("SELECT * FROM spaces WHERE code = ?", (space_code,)).fetchone()
         if not space:
             return {"message": "车位不存在"}, 404

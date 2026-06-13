@@ -229,7 +229,8 @@ select {
 }
 
 .status-maintenance,
-.status-paused {
+.status-paused,
+.status-removed {
   background: #e6e9ee;
   color: #4c5964;
 }
@@ -313,6 +314,25 @@ th {
 
 .error-text {
   color: #a13724;
+}
+
+.blocked-alert {
+  background: #fde4df;
+  border: 1px solid #f4b8ac;
+  border-radius: 8px;
+  color: #9b2e1c;
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+}
+
+.blocked-alert strong {
+  font-size: 15px;
+}
+
+.blocked-alert p {
+  margin: 0;
+  font-size: 14px;
 }
 
 .muted {

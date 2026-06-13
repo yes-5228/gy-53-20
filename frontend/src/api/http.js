@@ -11,7 +11,10 @@ async function request(path, options = {}) {
 
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(payload.message || "请求失败");
+    const error = new Error(payload.message || "请求失败");
+    error.data = payload;
+    error.status = response.status;
+    throw error;
   }
   return payload;
 }
@@ -20,4 +23,5 @@ export const http = {
   get: (path) => request(path),
   post: (path, body) => request(path, { method: "POST", body: JSON.stringify(body) }),
   patch: (path, body) => request(path, { method: "PATCH", body: JSON.stringify(body) }),
+  delete: (path) => request(path, { method: "DELETE" }),
 };

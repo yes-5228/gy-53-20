@@ -12,4 +12,8 @@ export const parkingApi = {
   exit: (id, payload) => http.post(`/parking/exit/${id}`, payload),
   getInvoices: () => http.get("/invoices"),
   createInvoice: (payload) => http.post("/invoices", payload),
+  getBlacklist: () => http.get("/blacklist"),
+  addBlacklist: (payload) => http.post("/blacklist", payload),
+  updateBlacklist: (id, payload) => http.patch(`/blacklist/${id}`, payload),
+  deleteBlacklist: (id) => http.delete(`/blacklist/${id}`),
 };

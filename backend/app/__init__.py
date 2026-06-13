@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 
 from .database import init_db
+from .routes.blacklist import blacklist_bp
 from .routes.invoices import invoices_bp
 from .routes.monthly_cards import monthly_cards_bp
 from .routes.parking import parking_bp
@@ -18,6 +19,7 @@ def create_app():
     app.register_blueprint(monthly_cards_bp, url_prefix="/api/monthly-cards")
     app.register_blueprint(parking_bp, url_prefix="/api/parking")
     app.register_blueprint(invoices_bp, url_prefix="/api/invoices")
+    app.register_blueprint(blacklist_bp, url_prefix="/api/blacklist")
 
     @app.get("/api/health")
     def health():

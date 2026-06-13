@@ -7,6 +7,7 @@ const spaces = ref([]);
 const orders = ref([]);
 const message = ref("");
 const quote = ref(null);
+const blockedInfo = ref(null);
 const entryForm = reactive({
   plate_number: "",
   space_code: "",
@@ -28,13 +29,18 @@ async function loadData() {
 
 async function createEntry() {
   message.value = "";
+  blockedInfo.value = null;
   try {
     await parkingApi.entry(entryForm);
     entryForm.plate_number = "";
     await loadData();
     message.value = "入场登记成功";
   } catch (err) {
-    message.value = err.message;
+    if (err.data && err.data.blocked) {
+      blockedInfo.value = err.data;
+    } else {
+      message.value = err.message;
+    }
   }
 }
 
@@ -72,6 +78,11 @@ onMounted(loadData);
         </label>
         <button class="primary-button" type="submit">登记入场</button>
         <p v-if="message" class="hint-text">{{ message }}</p>
+        <div v-if="blockedInfo" class="blocked-alert">
+          <strong>车辆已被拦截</strong>
+          <p>原因：{{ blockedInfo.reason }}</p>
+          <p v-if="blockedInfo.remark">备注：{{ blockedInfo.remark }}</p>
+        </div>
       </form>
 
       <form class="form-panel" @submit.prevent="calculate">
